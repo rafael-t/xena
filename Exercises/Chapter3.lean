@@ -53,18 +53,21 @@ lemma P4 : (p ∨ q) ∨ r ↔ p ∨ (q ∨ r) := iff.intro (L5 p q r) (L6 p q r
 
 
 -- -- other properties
-#check (p → (q → r))
-#check (p ∧ q → r)
-
 lemma L11 (h: (p → (q → r))) : (p ∧ q → r) := assume hpq : (p ∧ q), show r, from h hpq.left hpq.right 
 
-lemma L12 (h: (p ∧ q → r)) : (p → (q → r)) := sorry
+lemma L12 (h: (p ∧ q → r)) : (p → (q → r)) := assume hp : p, assume hq : q, show r, from h (and.intro (hp) (hq))
 
-lemma P6 : (p → (q → r)) ↔ (p ∧ q → r) := iff.intro (L11 p q r) (L12 p q r)
+lemma P7 : (p → (q → r)) ↔ (p ∧ q → r) := iff.intro (L11 p q r) (L12 p q r)
 
 
+lemma L13 (h: ((p ∨ q) → r)) : (p → r) ∧ (q → r) := and.intro
+(assume hp : p, h (or.intro_left q hp))
+(assume hq : q, h (or.intro_right p hq))
 
--- example : (p → (q → r)) ↔ (p ∧ q → r) := sorry
+lemma L14 (h: (p → r) ∧ (q → r)) : ((p ∨ q) → r) := sorry
+
+lemma P8 : ((p ∨ q) → r) ↔ (p → r) ∧ (q → r) := iff.intro (L13 p q r) (L14 p q r)
+
 -- example : ((p ∨ q) → r) ↔ (p → r) ∧ (q → r) := sorry
 -- example : ¬(p ∨ q) ↔ ¬p ∧ ¬q := sorry
 -- example : ¬p ∨ ¬q → ¬(p ∧ q) := sorry
