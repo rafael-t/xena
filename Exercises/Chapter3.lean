@@ -3,13 +3,15 @@ open classical
 variables p q r s : Prop
 
 -- commutativity of ∧ and ∨
-lemma L1 : p ∧ q → q ∧ p := assume h : p ∧ q, and.intro (h.right) (h.left)
+lemma L1 : p ∧ q → q ∧ p := assume h : p ∧ q, and.intro (and.right h) (and.left h)
 
 lemma L2 : p ∧ q ↔ q ∧ p := iff.intro
 (assume h : p ∧ q, L1 p q h)
 (assume h : q ∧ p, L1 q p h)
 
-lemma L3 : p ∨ q → q ∨ p := sorry
+lemma L3 : p ∨ q → q ∨ p := assume h : p ∨ q, or.elim h
+(assume hp : p, or.intro_right q hp)
+(assume hq : q, or.intro_left p hq)
 
 lemma L4 : p ∨ q ↔ q ∨ p := iff.intro
 (assume h : p ∨ q, L3 p q h)
