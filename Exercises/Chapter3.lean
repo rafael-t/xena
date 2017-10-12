@@ -30,12 +30,17 @@ lemma L7 : (p ∧ q) ∧ r ↔ p ∧ (q ∧ r) := iff.intro (L5 p q r) (L6 p q r
 
 lemma L8 (h: (p ∨ q) ∨ r) : p ∨ (q ∨ r) := or.elim h
 (assume hpq : (p ∨ q), or.elim hpq
-(assume hp : p, or.intro_left (q ∨ r) hp)
-(assume hq : q, or.intro_right p (or.intro_left r hq))
+    (assume hp : p, or.intro_left (q ∨ r) hp)
+    (assume hq : q, or.intro_right p (or.intro_left r hq))
 )
 (assume hr : r, or.intro_right p (or.intro_right q hr))
 
-lemma L9 (h: p ∨ (q ∨ r)) :  (p ∨ q) ∨ r := sorry
+lemma L9 (h: p ∨ (q ∨ r)) :  (p ∨ q) ∨ r := or.elim h
+(assume hp : p, or.intro_left r (or.intro_left q hp))
+(assume hqr : (q ∨ r), or.elim hqr
+    (assume hq : q, or.intro_left r (or.intro_right p hq))
+    (assume hr : r, or.intro_right (p ∨ q) hr)
+)
 
 lemma L10 : (p ∨ q) ∨ r ↔ p ∨ (q ∨ r) := iff.intro (L8 p q r) (L9 p q r)
 
