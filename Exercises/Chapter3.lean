@@ -64,11 +64,15 @@ lemma L13 (h: ((p ∨ q) → r)) : (p → r) ∧ (q → r) := and.intro
 (assume hp : p, h (or.intro_left q hp))
 (assume hq : q, h (or.intro_right p hq))
 
-lemma L14 (h: (p → r) ∧ (q → r)) : ((p ∨ q) → r) := sorry
+lemma L14 (h: (p → r) ∧ (q → r)) : ((p ∨ q) → r) := assume hpq : (p ∨ q), or.elim hpq
+(assume hp : p, and.left h hp)
+(assume hq : q, and.right h hq)
 
 lemma P8 : ((p ∨ q) → r) ↔ (p → r) ∧ (q → r) := iff.intro (L13 p q r) (L14 p q r)
 
--- example : ((p ∨ q) → r) ↔ (p → r) ∧ (q → r) := sorry
+
+
+
 -- example : ¬(p ∨ q) ↔ ¬p ∧ ¬q := sorry
 -- example : ¬p ∨ ¬q → ¬(p ∧ q) := sorry
 -- example : ¬(p ∧ ¬p) := sorry
